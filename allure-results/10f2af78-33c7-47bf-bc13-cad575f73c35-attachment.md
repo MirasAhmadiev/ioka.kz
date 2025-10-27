@@ -1,0 +1,309 @@
+# Page snapshot
+
+```yaml
+- generic [active] [ref=e1]:
+  - banner [ref=e2]:
+    - generic [ref=e5]:
+      - generic [ref=e6]:
+        - link "ioka-logo" [ref=e7] [cursor=pointer]:
+          - /url: /ru
+          - img "ioka-logo" [ref=e9]
+        - navigation [ref=e10]:
+          - button "Продукты" [ref=e12] [cursor=pointer]
+          - link "Тарифы" [ref=e14] [cursor=pointer]:
+            - /url: /ru/pricing
+          - link "О компании" [ref=e16] [cursor=pointer]:
+            - /url: /ru/about
+          - link "Блог" [ref=e18] [cursor=pointer]:
+            - /url: /ru/blog
+          - button "Разработчикам" [ref=e20] [cursor=pointer]
+      - generic [ref=e21]:
+        - button "RU" [ref=e22] [cursor=pointer]
+        - button "Войти" [ref=e23] [cursor=pointer]
+  - main [ref=e24]:
+    - generic [ref=e26]:
+      - generic [ref=e27]:
+        - heading "Подключение онлайн оплаты" [level=1] [ref=e28]
+        - heading "Интернет-эквайринг для бизнеса" [level=2] [ref=e29]
+        - paragraph [ref=e30]: Удобное и безопасное решение для приема онлайн платежей со всех банковских карт Казахстана и других стран мира, а также с возможностью автоматизации отчета по платежам.
+        - link "Подключиться" [ref=e31] [cursor=pointer]:
+          - /url: /ru#integration-form
+          - button "Подключиться" [ref=e32]
+      - img "payment" [ref=e36]
+    - generic [ref=e38]:
+      - generic [ref=e39]:
+        - generic [ref=e40]: Оплата на Tilda
+        - generic [ref=e41]: Оплата на сайте
+        - generic [ref=e42]: Оплата через соцсети
+        - generic [ref=e43]: Apple Pay
+        - generic [ref=e44]: Google Pay
+        - generic [ref=e45]: Оплата в приложении
+      - generic [ref=e47]:
+        - img "Merchant 1" [ref=e49]
+        - img "Merchant 2" [ref=e51]
+        - img "Merchant 3" [ref=e53]
+        - img "Merchant 4" [ref=e55]
+        - img "Merchant 5" [ref=e57]
+        - img "Merchant 6" [ref=e59]
+        - img "Merchant 7" [ref=e61]
+        - img "Merchant 8" [ref=e63]
+        - img "Merchant 1" [ref=e65]
+        - img "Merchant 2" [ref=e67]
+        - img "Merchant 3" [ref=e69]
+        - img "Merchant 4" [ref=e71]
+        - img "Merchant 5" [ref=e73]
+        - img "Merchant 6" [ref=e75]
+        - img "Merchant 7" [ref=e77]
+        - img "Merchant 8" [ref=e79]
+    - generic [ref=e81]:
+      - img "payment" [ref=e84]
+      - generic [ref=e85]:
+        - heading "Увеличивайте продажи с платежными решениями ioka" [level=2] [ref=e86]
+        - generic [ref=e87]:
+          - generic [ref=e88]:
+            - img [ref=e89]
+            - paragraph [ref=e92]: Автоматизация получения отчета и аналитика по платежам
+          - generic [ref=e93]:
+            - img [ref=e94]
+            - paragraph [ref=e97]: Подбор платежных решений под потребности бизнеса
+          - generic [ref=e98]:
+            - img [ref=e99]
+            - paragraph [ref=e102]: Защита платежных данных согласно международным стандартам безопасности
+          - generic [ref=e103]:
+            - img [ref=e104]
+            - paragraph [ref=e107]: Удобный интерфейс оплаты, который адаптируется под потребности бизнеса
+          - generic [ref=e108]:
+            - img [ref=e109]
+            - paragraph [ref=e112]: Прием оплаты в 1 клик с помощью Apple Pay, Google Pay и Masterpass (хранилище карт)
+    - generic [ref=e114]:
+      - link "image-1":
+        - /url: /ru/blog/1
+        - img "image-1"
+      - generic [ref=e115]:
+        - 'link "Новая статья Финтех как комьюнити: рост не через продукт, а через партнёрство Автор: Анара Жұмаш — Соосновательница ioka group. Директор Экосистемы Онлайн Платежей ioka fintech"':
+          - /url: /ru/blog/1
+          - generic:
+            - paragraph: Новая статья
+            - paragraph: "Финтех как комьюнити: рост не через продукт, а через партнёрство"
+            - paragraph:
+              - generic: "Автор:"
+              - text: Анара Жұмаш — Соосновательница ioka group. Директор Экосистемы Онлайн Платежей ioka fintech
+        - link "Читать статью" [ref=e116] [cursor=pointer]:
+          - /url: /ru/blog/1
+    - generic [ref=e118]:
+      - generic [ref=e119]:
+        - heading "Используйте легкие способы оплаты" [level=2] [ref=e120]
+        - generic [ref=e121]:
+          - generic [ref=e123]: Без интеграции
+          - paragraph [ref=e124]: Cсылка и QR код на оплату
+          - paragraph [ref=e125]: Создайте ссылку для оплаты заказа и отправьте ее покупателю через мессенджер. Ссылку также можно открыть через QR код.
+        - generic [ref=e126]:
+          - generic [ref=e128]: Оплата в 1 клик
+          - paragraph [ref=e129]: Apple и Google Pay
+          - paragraph [ref=e130]: Предоставьте своим клиентам легкий способ оплаты с помощью Apple Pay и Google Pay.
+      - img "payment" [ref=e133]
+    - generic [ref=e135]:
+      - heading "Будьте уверены в надежной защите платежных данных" [level=2] [ref=e136]
+      - generic [ref=e137]:
+        - paragraph [ref=e138]: Информационная безопасность является приоритетом ioka, поэтому ежегодно компания проходит сертификацию мировых стандартов безопасности. Каждый сотрудник ioka поддерживает данную ценность в своей ежедневной работе.
+        - generic [ref=e139]:
+          - img "payment" [ref=e141]
+          - paragraph [ref=e142]: PCI DSS Level 1 — самый высокий уровень оценки безопасности данных платежных карт.
+          - paragraph [ref=e144]: Оценка соответствия проводится ежегодно компанией IT Specialis, независимым квалифицированным инспектором безопасности (QSA).
+          - link "Посмотреть сертификат" [ref=e145] [cursor=pointer]:
+            - /url: /data/ioka-certificate.pdf
+          - generic [ref=e146]: 1/3
+          - generic [ref=e148]:
+            - img [ref=e149] [cursor=pointer]
+            - img [ref=e153] [cursor=pointer]
+    - generic [ref=e158]:
+      - heading "Готовые решения для бизнеса" [level=2] [ref=e159]
+      - generic [ref=e160]:
+        - img "Онлайн магазины" [ref=e163]
+        - generic [ref=e164]:
+          - 'link "Онлайн магазины Предоставьте своим клиентам возможность оплатить онлайн. Подключите ioka и позвольте им выбирать, каким из способов произвести оплату: Карта Google Pay Apple Pay QR и ссылка Подробнее" [ref=e165] [cursor=pointer]':
+            - /url: /ru/products/online-stores
+            - paragraph [ref=e166]: Онлайн магазины
+            - generic [ref=e167]:
+              - paragraph [ref=e168]: "Предоставьте своим клиентам возможность оплатить онлайн. Подключите ioka и позвольте им выбирать, каким из способов произвести оплату:"
+              - generic [ref=e169]:
+                - generic [ref=e170]:
+                  - img [ref=e171]
+                  - paragraph [ref=e175]: Карта
+                - generic [ref=e176]:
+                  - img [ref=e177]
+                  - paragraph [ref=e181]: Google Pay
+                - generic [ref=e182]:
+                  - img [ref=e183]
+                  - paragraph [ref=e187]: Apple Pay
+                - generic [ref=e188]:
+                  - img [ref=e189]
+                  - paragraph [ref=e193]: QR и ссылка
+            - generic [ref=e195]:
+              - text: Подробнее
+              - img [ref=e196]
+          - button "Авторитейлеры" [ref=e198] [cursor=pointer]
+          - button "Маркетплейсы" [ref=e199] [cursor=pointer]
+          - button "Образование" [ref=e200] [cursor=pointer]
+    - generic [ref=e202]:
+      - heading "ioka — партнер по онлайн платежам в Казахстане" [level=2] [ref=e203]
+      - generic [ref=e204]:
+        - generic [ref=e205]:
+          - img [ref=e206]
+          - generic [ref=e209]:
+            - paragraph [ref=e210]: 100млрд.₸ +
+            - paragraph [ref=e211]: Общий оборот в год
+        - generic [ref=e213]:
+          - generic [ref=e214]:
+            - img [ref=e215]
+            - generic [ref=e219]:
+              - paragraph [ref=e220]: 3млн+
+              - paragraph [ref=e221]: Транзакций в год
+          - generic [ref=e223]:
+            - img [ref=e224]
+            - generic [ref=e229]:
+              - paragraph [ref=e230]: 60+
+              - paragraph [ref=e231]: Компаний
+    - generic [ref=e236]:
+      - generic [ref=e237]:
+        - paragraph [ref=e238]: Повышайте конверсию продаж
+        - generic [ref=e239]:
+          - paragraph [ref=e240]: С ioka платежи будут доводиться до успешного завершения. Не теряйте новых клиентов и увеличивайте вероятность их возврата на ваш сервис.
+          - generic [ref=e241]:
+            - generic [ref=e242]:
+              - img [ref=e243]
+              - paragraph [ref=e245]: Благодаря качественной верстке предоставляем высокую скорость загрузки формы оплаты и других страниц.
+            - generic [ref=e246]:
+              - img [ref=e247]
+              - paragraph [ref=e249]: При отказе или трудностях в проведении платежа, отображаем инструкцию, подсказку о дальнейших действиях.
+            - generic [ref=e250]:
+              - img [ref=e251]
+              - paragraph [ref=e253]: Мультиэквайринг ioka (сотрудничество с 6 банками) значительно увеличивает вероятность успешности транзакций.
+      - generic [ref=e254]:
+        - generic [ref=e255]:
+          - paragraph [ref=e256]: Подключайте онлайн платежи ioka
+          - generic [ref=e257]:
+            - paragraph [ref=e258]: Остались вопросы?
+            - link "bot Чат бот-io готов помочь вам" [ref=e259] [cursor=pointer]:
+              - /url: https://t.me/ioka_guide_bot
+              - generic [ref=e260]:
+                - img "bot" [ref=e262]
+                - paragraph [ref=e263]:
+                  - text: Чат бот-io готов
+                  - text: помочь вам
+        - generic [ref=e265]:
+          - paragraph [ref=e266]:
+            - text: Готовы подключить онлайн платежи к вашему бизнесу?
+            - text: Заполните свои данные и мы свяжемся с вами.
+          - generic [ref=e267]:
+            - textbox "Ваше имя" [ref=e269]
+            - generic [ref=e270]:
+              - textbox "Номер телефона" [ref=e273]
+              - textbox "E-mail" [ref=e275]
+            - textbox "Название компании" [ref=e277]
+            - textbox "Сайт компании" [ref=e279]
+            - button "Отправить" [ref=e281] [cursor=pointer]
+          - generic [ref=e282]:
+            - paragraph [ref=e283]: Нажимая «Отправить», вы подтверждаете, что согласны с
+            - paragraph [ref=e284]:
+              - link "Политикой конфиденциальности" [ref=e285] [cursor=pointer]:
+                - /url: https://ioka.kz/data/privacy-rules.pdf
+  - contentinfo [ref=e286]:
+    - generic [ref=e287]:
+      - generic [ref=e288]:
+        - generic [ref=e289]:
+          - paragraph [ref=e290]: Остались вопросы?
+          - link "bot Наш чат бот-io готов помочь Вам найти нужную информацию!" [ref=e291] [cursor=pointer]:
+            - /url: https://t.me/ioka_guide_bot
+            - generic [ref=e292]:
+              - img "bot" [ref=e294]
+              - generic [ref=e295]:
+                - paragraph [ref=e296]: Наш чат бот-io
+                - paragraph [ref=e297]:
+                  - text: готов помочь Вам
+                  - text: найти нужную информацию!
+          - generic [ref=e299]:
+            - paragraph [ref=e300]: Наша техническая поддержка
+            - paragraph [ref=e301]: В случае возникновения технических проблем, Вы можете обращаться к нашей команде поддержки.
+          - generic [ref=e302]:
+            - generic [ref=e303]:
+              - img [ref=e304]
+              - link "support@ioka.kz" [ref=e308] [cursor=pointer]:
+                - /url: mailto:support@ioka.kz
+            - generic [ref=e309]:
+              - img [ref=e310]
+              - link "Телеграм" [ref=e312] [cursor=pointer]:
+                - /url: https://t.me/ioka_guide_bot
+            - generic [ref=e313]:
+              - img [ref=e314]
+              - link "8 701 540 18 02" [ref=e316] [cursor=pointer]:
+                - /url: tel:8 701 540 18 02
+          - generic [ref=e318]:
+            - paragraph [ref=e319]: "Контакты:"
+            - generic [ref=e320]:
+              - link [ref=e321] [cursor=pointer]:
+                - /url: https://www.instagram.com/ioka.kz/
+                - img [ref=e322]
+              - link [ref=e324] [cursor=pointer]:
+                - /url: https://www.youtube.com/@---bc3lt
+                - img [ref=e325]
+              - link [ref=e328] [cursor=pointer]:
+                - /url: https://www.linkedin.com/company/payment-processing-llp/
+                - img [ref=e329]
+            - link "Алматы, 050051, ул. Инженерная, дом 15" [ref=e334] [cursor=pointer]:
+              - /url: https://go.2gis.com/wotiO
+        - generic [ref=e335]:
+          - paragraph [ref=e336]: Продукты
+          - generic [ref=e337]:
+            - generic [ref=e338]:
+              - paragraph [ref=e339]: Платежные решения
+              - link "Прием платежей" [ref=e340] [cursor=pointer]:
+                - /url: /ru/products/accept-payments
+              - link "Ссылка и QR код" [ref=e341] [cursor=pointer]:
+                - /url: /ru/products/payment-link
+              - link "Apple Pay, Google Pay" [ref=e342] [cursor=pointer]:
+                - /url: /ru/products/apple-google-pay
+              - link "Переводы" [ref=e343] [cursor=pointer]:
+                - /url: /ru/products/transfers
+              - link "Рассрочки и кредиты" [ref=e344] [cursor=pointer]:
+                - /url: /ru/products/installments
+              - link "Фискализация" [ref=e345] [cursor=pointer]:
+                - /url: /ru/products/fiscal-receipts
+            - generic [ref=e346]:
+              - paragraph [ref=e347]: Готовые решения
+              - link "Онлайн магазины" [ref=e348] [cursor=pointer]:
+                - /url: /ru/products/online-stores
+              - link "Авторитейлинг" [ref=e349] [cursor=pointer]:
+                - /url: /ru/products/auto-retailers
+              - link "Маркетплейсы" [ref=e350] [cursor=pointer]:
+                - /url: /ru/products/marketplaces
+              - link "Образование" [ref=e351] [cursor=pointer]:
+                - /url: /ru/products/education
+            - generic [ref=e352]:
+              - paragraph [ref=e353]: Интеграция
+              - link "Виджет" [ref=e354] [cursor=pointer]:
+                - /url: /docs/basics/quickstart
+              - link "SDK" [ref=e355] [cursor=pointer]:
+                - /url: /docs/mobile-sdks/overview
+            - generic [ref=e356]:
+              - link "Блог" [ref=e357] [cursor=pointer]:
+                - /url: /ru/blog
+              - link "О компании" [ref=e358] [cursor=pointer]:
+                - /url: /ru/about
+            - link "Тарифы" [ref=e360] [cursor=pointer]:
+              - /url: /ru/pricing
+            - link "Разработчикам" [ref=e362] [cursor=pointer]:
+              - /url: /docs/basics/quickstart
+      - generic [ref=e363]:
+        - link "Правила осуществления деятельности платежной организации" [ref=e364] [cursor=pointer]:
+          - /url: /data/ioka-rules_v2.pdf
+        - generic [ref=e365]:
+          - link "Политика конфиденциальности" [ref=e366] [cursor=pointer]:
+            - /url: /data/privacy-rules.pdf
+            - text: Политика
+            - text: конфиденциальности
+          - paragraph [ref=e367]:
+            - text: © 2025, TOO “ioka fintech”
+            - text: Все права защищены
+  - alert [ref=e368]
+```
