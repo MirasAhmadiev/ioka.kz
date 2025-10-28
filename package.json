@@ -8,6 +8,7 @@
     "pretest": "npm run allure:clear",
     "test": "playwright test",
     "test:ui": "playwright test tests/ui/contact-form.pom.spec.ts",
+    "report": "playwright show-report",
     "allure:generate": "npx allure generate allure-results -o allure-report --clean",
     "allure:open": "npx allure open allure-report",
     "allure": "npm run allure:generate && npm run allure:open"

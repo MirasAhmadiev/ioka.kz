@@ -11,6 +11,15 @@ import { defineConfig, devices } from '@playwright/test';
 /**
  * See https://playwright.dev/docs/test-configuration.
  */
+const env = (k: string, def: string) => {
+  const v = process.env[k]?.trim();
+  return v ? v : def;
+};
+
+const UI_BASE_URL  = env('UI_BASE_URL',  'https://ioka.kz/ru');   // не пустая!
+const API_BASE_URL = env('API_BASE_URL', 'https://api.ioka.kz');
+const API_KEY      = env('API_KEY',      'test_key');
+
 export default defineConfig({
   testDir: './tests',
   /* Run tests in files in parallel */
@@ -25,6 +34,7 @@ export default defineConfig({
   /* Reporter to use. See https://playwright.dev/docs/test-reporters */
   reporter: [
     ['list'],
+    ['html', { open: 'on-failure' }],
     ['allure-playwright', {
       detail: true,                   // показывать шаги test.step
       suiteTitle: false,
@@ -33,32 +43,29 @@ export default defineConfig({
   ],
   /* Shared settings for all the projects below. See https://playwright.dev/docs/api/class-testoptions. */
   use: {
-    baseURL: process.env.UI_BASE_URL ?? 'https://ioka.kz/ru',
-    screenshot: 'only-on-failure',    // будет прикреплено к Allure (см. ниже afterEach)
-    video: 'on',                      // пишем видео каждого теста
-    trace: 'retain-on-failure',
-  },
+      baseURL: UI_BASE_URL,
+      screenshot: 'only-on-failure',
+      video: 'on',
+      trace: 'retain-on-failure',
+    },
 
-  /* Configure projects for major browsers */
-  projects: [
-  {
-    name: 'ui',
-    testDir: 'tests/ui',
-    use: {
-      baseURL: process.env.UI_BASE_URL ?? 'https://ioka.kz/ru',
-      browserName: 'chromium',
-    },
-  },
-  {
-    name: 'api',               
-    testDir: 'tests/api',
-    use: {
-      baseURL: process.env.API_BASE_URL ?? 'https://api.ioka.kz', // или stage
-      extraHTTPHeaders: {
-        'API-KEY': process.env.API_KEY ?? 'test_key',
+    projects: [
+      {
+        name: 'ui',
+        testDir: 'tests/ui',
+        use: { browserName: 'chromium' },
       },
-    },
-  },
+      {
+        name: 'api',
+        testDir: 'tests/api',
+        retries: 0,   
+        use: {
+          baseURL: API_BASE_URL,
+          extraHTTPHeaders: { 'API-KEY': API_KEY },
+          trace: 'off',             
+          video: 'off',
+        },
+      },
   /*
     {
       name: 'firefox',

@@ -1,6 +1,6 @@
 import { test, expect } from '@playwright/test';
 import { installIokaOrdersMocks } from '../mocks/ioka.orders.mock';
-import { apiUrl, authHeaders } from '../config/ioka.config';
+import { apiUrl, authHeaders } from '../../config/ioka.api.config';
 
 // Тип результата из evaluate
 type FetchResult<T = any> = { status: number; body: T; elapsedMs: number };

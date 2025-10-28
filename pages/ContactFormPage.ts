@@ -20,9 +20,9 @@ export class ContactFormPage {
   readonly requiredError: Locator;
   readonly successText: Locator;
   readonly successDialog: Locator;
-  readonly successModal: Locator;
   readonly successOkBtn: Locator;
-
+  readonly thanksUrlRe = /\/thanks\/?$/;
+  
   constructor(page: Page) {
     this.page = page;
     this.root = page.locator('form').filter({
@@ -36,29 +36,22 @@ export class ContactFormPage {
     this.binInput = this.root.locator(
     'input#bin, input[name="bin"], input[placeholder="Сайт компании"]'
     ).first();
-    this.submitBtn = this.root.getByRole('button', { name: /отправить/i });
-  
-    this.requiredError = this.root
-    .locator('p.text-red-500')
-    .filter({ hasText: 'Обязательное поле' });
+    this.submitBtn     = page.getByRole('button', { name: 'Отправить' });
+    this.requiredError = this.root.getByText(/Обязательное\s+поле/i);
     this.successText   = page.getByText(/(спасибо|заявка отправлена)/i);
 
-    this.successModal = page.getByRole('dialog').filter({ hasText: /Благодарим за заявку/i });
-
-    this.successDialog = page.getByRole('dialog').getByText('Благодарим за заявку', { exact: false });
-    this.successOkBtn  = page.getByRole('button', { name: /Хорошо/i });
+    this.successDialog = page.getByRole('dialog').filter({ hasText: 'Благодарим за заявку' });
+    this.successOkBtn  = page.getByRole('button', { name: 'Хорошо' });
 
   }
 
   async goto() {
- 
     await this.page.goto('/', { waitUntil: 'domcontentloaded' });
   }
 
   async fillForm(data: ContactFormData) {
     await this.nameInput.fill(data.name);
 
-    
     await this.phoneInput.click();
     await this.phoneInput.fill('');               
     await this.phoneInput.fill(data.phone);
@@ -75,32 +68,28 @@ export class ContactFormPage {
 
   async submit() {
     await this.submitBtn.click();
-    await this.page.waitForTimeout(100);
-    try { await expect(this.submitBtn).toBeDisabled({ timeout: 3000 }); } catch {}
-    try { await expect(this.submitBtn).toBeEnabled({ timeout: 10000 }); } catch {}
-
-    await this.page.waitForLoadState('networkidle').catch(() => {});
+    await expect(this.submitBtn).toBeDisabled({ timeout: 2000 }).catch(() => {});
   }
-
 
   async expectNoValidationErrors() {
     await expect(this.requiredError).toHaveCount(0);
   }
 
-  async expectSuccess() {
-    const timeout = 15000;
-
-    const waitForModal = this.successDialog
+  async expectSuccess(timeout = 10000) {
+    const modalPromise = this.successDialog
       .waitFor({ state: 'visible', timeout })
-      .then(() => 'modal');
+      .then(() => 'modal' as const);
 
-    const waitForThanks = this.page
-      .waitForURL(/\/thanks($|[/?])/i, { timeout })
-      .then(() => 'thanks');
+    const urlPromise = this.page
+      .waitForURL(this.thanksUrlRe, { timeout, waitUntil: 'commit' })
+      .then(() => 'redirect' as const);
 
-    const winner = await Promise
-      .any([waitForModal, waitForThanks])
-      .catch(() => null);
+    let winner: 'modal' | 'redirect' | null = null;
+    try {
+      winner = await Promise.any([modalPromise, urlPromise]);
+    } catch {
+      winner = null;
+    }
 
     if (!winner) {
       throw new Error('Не найден признак успешной отправки (ни модалки, ни редиректа /thanks).');
@@ -108,8 +97,10 @@ export class ContactFormPage {
 
     if (winner === 'modal') {
       await expect(this.successDialog).toBeVisible();
-      await expect(this.successOkBtn).toBeVisible();
-      await this.successOkBtn.click({ trial: true }).catch(() => {});
+      await this.successOkBtn.click();
+      await this.successDialog.waitFor({ state: 'hidden' });
+    } else {
+      await expect(this.page).toHaveURL(this.thanksUrlRe);
     }
   }
 
