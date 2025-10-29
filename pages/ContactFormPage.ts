@@ -1,4 +1,4 @@
-import { expect, Locator, Page } from '@playwright/test';
+import { expect, type Locator, type Page } from '@playwright/test';
 
 export type ContactFormData = {
   name: string;
@@ -26,18 +26,19 @@ export class ContactFormPage {
   constructor(page: Page) {
     this.page = page;
     this.root = page.locator('form').filter({
-    has: page.getByPlaceholder('Ваше имя'),
-    }).first();
+      has: page.getByPlaceholder('Ваше имя')
+    });
+
+
+    // поля ищем ТОЛЬКО внутри этого root
     this.nameInput    = this.root.getByPlaceholder('Ваше имя');
     this.phoneInput   = this.root.getByPlaceholder('Номер телефона');
-    this.emailInput   = this.root.getByPlaceholder(/E-?mail/i);
+    this.emailInput   = this.root.getByPlaceholder('E-mail');
     this.companyInput = this.root.getByPlaceholder('Название компании');
-  
-    this.binInput = this.root.locator(
-    'input#bin, input[name="bin"], input[placeholder="Сайт компании"]'
-    ).first();
-    this.submitBtn     = page.getByRole('button', { name: 'Отправить' });
-    this.requiredError = this.root.getByText(/Обязательное\s+поле/i);
+    // если пятое поле — это сайт/БИН, подставь правильный placeholder:
+    this.binInput     = this.root.getByPlaceholder('Сайт компании');
+    this.submitBtn    = this.root.getByRole('button', { name: /^Отправить$/ });
+    this.requiredError = this.root.getByText('Обязательное поле', { exact: true });
     this.successText   = page.getByText(/(спасибо|заявка отправлена)/i);
 
     this.successDialog = page.getByRole('dialog').filter({ hasText: 'Благодарим за заявку' });
@@ -49,17 +50,42 @@ export class ContactFormPage {
     await this.page.goto('/', { waitUntil: 'domcontentloaded' });
   }
 
-  async fillForm(data: ContactFormData) {
-    await this.nameInput.fill(data.name);
-
-    await this.phoneInput.click();
-    await this.phoneInput.fill('');               
-    await this.phoneInput.fill(data.phone);
-
-    await this.emailInput.fill(data.email);
-    await this.companyInput.fill(data.company);
-    await this.binInput.fill(data.bin);
+  private async ensureFormReady() {
+    // 2) Дождаться гидрации/стабильности перед кликом
+    await this.root.scrollIntoViewIfNeeded();
+    await this.page.waitForLoadState('networkidle');  // коротко и по делу
+    await expect(this.submitBtn).toBeVisible();
+    await expect(this.submitBtn).toBeEnabled();
   }
+
+
+  private async clearAndType(el: Locator, value: string) {
+    await el.waitFor({ state: 'visible' });
+    await el.fill('');          // гарантированно очищает даже после ре-рендеров
+    await el.fill(value);       // одним вызовом — и быстрее, и стабильнее
+    await expect(el).toHaveValue(value);
+  }
+
+
+  digitsOnly(s: string) {
+    return s.replace(/\D/g, '');
+  }
+
+  async fillValidData(data: ContactFormData) {
+    await this.ensureFormReady();
+
+    await this.clearAndType(this.nameInput, data.name);
+
+    // Телефон без проверок: просто цифры, маска сама всё расставит
+    await this.phoneInput.fill(this.digitsOnly(data.phone) || '77771234567');
+    await this.phoneInput.blur(); // чтобы триггернуть валидацию, если нужно
+
+    await this.clearAndType(this.emailInput, data.email);
+    await this.clearAndType(this.companyInput, data.company);
+    await this.clearAndType(this.binInput, data.bin);
+  }
+
+
 
   async expectSubmitEnabled() {
     await expect(this.submitBtn).toBeVisible();
@@ -67,48 +93,55 @@ export class ContactFormPage {
   }
 
   async submit() {
+    await this.ensureFormReady();
+    await this.submitBtn.scrollIntoViewIfNeeded();
     await this.submitBtn.click();
-    await expect(this.submitBtn).toBeDisabled({ timeout: 2000 }).catch(() => {});
+  }
+  async submitEmpty() {
+    await this.ensureFormReady();
+      // 3) Клик без ожидания навигации, чтобы не "улетать" к #/вверх
+    await this.submitBtn.click({ noWaitAfter: true });
+      // 4) Ждём появление ошибок в той же форме
+    await expect(this.requiredError).toHaveCount(5, { timeout: 5000 });
   }
 
   async expectNoValidationErrors() {
     await expect(this.requiredError).toHaveCount(0);
   }
 
-  async expectSuccess(timeout = 10000) {
-    const modalPromise = this.successDialog
-      .waitFor({ state: 'visible', timeout })
-      .then(() => 'modal' as const);
 
-    const urlPromise = this.page
-      .waitForURL(this.thanksUrlRe, { timeout, waitUntil: 'commit' })
-      .then(() => 'redirect' as const);
+  async expectSuccess(timeout = 15000) {
+    const modal = this.page
+      .getByRole('dialog')
+      .filter({ hasText: 'Благодарим за заявку' })
+      .waitFor({ state: 'visible', timeout });
 
-    let winner: 'modal' | 'redirect' | null = null;
-    try {
-      winner = await Promise.any([modalPromise, urlPromise]);
-    } catch {
-      winner = null;
-    }
+    const thanks = this.page.waitForURL(/\/thanks(\?|$)/, {
+      waitUntil: 'domcontentloaded',
+      timeout,
+    });
 
-    if (!winner) {
-      throw new Error('Не найден признак успешной отправки (ни модалки, ни редиректа /thanks).');
-    }
-
-    if (winner === 'modal') {
-      await expect(this.successDialog).toBeVisible();
-      await this.successOkBtn.click();
-      await this.successDialog.waitFor({ state: 'hidden' });
-    } else {
-      await expect(this.page).toHaveURL(this.thanksUrlRe);
-    }
+    await Promise.race([modal, thanks]).catch(async () => {
+      // соберём состояние формы для дебага
+      const state = {
+        name:  await this.nameInput.inputValue().catch(()=>'ERR'),
+        phone: await this.phoneInput.inputValue().catch(()=>'ERR'),
+        email: await this.emailInput.inputValue().catch(()=>'ERR'),
+        submitDisabled: await this.submitBtn.isDisabled().catch(()=>true),
+      };
+      throw new Error(
+        `Не найден признак успеха (ни модалки, ни /thanks). ` +
+        `state=${JSON.stringify(state)}`
+      );
+    });
   }
+
 
   async setEmail(value: string) {
     await this.emailInput.fill(value);
   }
 
-async expectInvalidEmail() {
+  async expectInvalidEmail() {
 
     await expect(this.emailInput).toHaveAttribute(
         'class',

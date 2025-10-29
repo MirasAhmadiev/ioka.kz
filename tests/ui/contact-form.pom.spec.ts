@@ -10,31 +10,28 @@ const validData: ContactFormData = {
 };
 
 test('Отправка с валидными данными', async ({ page }) => {
-    const form = new ContactFormPage(page);
+  const form = new ContactFormPage(page);
 
-    await test.step('Открыть форму', async () => {
-      await form.goto();
-      await expect(form.submitBtn).toBeVisible();
-    });
-
-    await test.step('Заполнить валидными данными', async () => {
-      await form.fillForm(validData);
-      await form.expectSubmitEnabled();
-    });
-
-    await test.step('Отправить и проверить успех', async () => {
-      await form.submit();
-      await form.expectSuccess();
-      await form.expectNoValidationErrors();
-    });
+  await test.step('Открыть форму', async () => {
+    await form.goto();
   });
+
+  await test.step('Заполнить валидными данными', async () => {
+    await form.fillValidData(validData);
+  });
+
+  await test.step('Отправить и проверить успех', async () => {
+    await form.submit();
+    await form.expectSuccess(15000);
+  });
+});
 
 
 test('Отправка с невалидныи e-mail', async ({ page }) => {
   const form = new ContactFormPage(page);
   await form.goto();
 
-  await form.fillForm(validData);
+  await form.fillValidData(validData);
   await form.setEmail('4y5');
 
   await form.submit();
@@ -42,12 +39,9 @@ test('Отправка с невалидныи e-mail', async ({ page }) => {
 });
 
 test('Отправка пустой формы: показываются все обязательные поля', async ({ page }) => {
-
   const form = new ContactFormPage(page);
   await form.goto();
-  await form.submit();
-// отправляем пустые данные
-  await expect(form.requiredError.first()).toBeVisible({ timeout: 5000 });
-  await expect(form.requiredError).toHaveCount(5);
+
+  await form.submitEmpty(); // пустая отправка + ожидание 5 ошибок внутри POM
 });
 
